@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="LD-ViCE: Latent Diffusion Model for Video Counterfactual Explanations">
+  <meta name="keywords" content="Counterfactual Explanations, Video Understanding, Diffusion Models, Explainable AI">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LD-ViCE: Project Page</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+</head>
+<body>
+
+<section class="hero site-hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <h1 class="title is-1 publication-title">LD-ViCE: Latent Diffusion Model for Video Counterfactual Explanations</h1>
+      <p class="is-size-5 publication-authors">
+        <span class="author-entry">
+          <a href="https://www.linkedin.com/in/payalvarshney/" aria-label="Payal Varshney LinkedIn">Payal Varshney</a>
+          <a class="scholar-link" href="https://scholar.google.com/citations?user=T9gdblsAAAAJ" aria-label="Payal Varshney Google Scholar"><i class="ai ai-google-scholar"></i></a>
+        </span>,
+        <span class="author-entry">
+          Adriano Lucieri
+          <a class="scholar-link" href="https://scholar.google.de/citations?hl=de&oi=ao&user=K1swmokAAAAJ" aria-label="Adriano Lucieri Google Scholar"><i class="ai ai-google-scholar"></i></a>
+        </span>,
+        <span class="author-entry">
+          Christoph Balada
+          <a class="scholar-link" href="https://scholar.google.com/citations?user=Va3aFzoAAAAJ&hl" aria-label="Christoph Balada Google Scholar"><i class="ai ai-google-scholar"></i></a>
+        </span>,
+        <span class="author-entry">
+          Sheraz Ahmed
+          <a class="scholar-link" href="https://scholar.google.com/citations?hl=de&user=LHg0R4wAAAAJ" aria-label="Sheraz Ahmed Google Scholar"><i class="ai ai-google-scholar"></i></a>
+        </span>,
+        <span class="author-entry">
+          Andreas Dengel
+          <a class="scholar-link" href="https://scholar.google.de/citations?cstart=40&hl=de&oi=ao&pagesize=20&user=p3YP0DMAAAAJ" aria-label="Andreas Dengel Google Scholar"><i class="ai ai-google-scholar"></i></a>
+        </span>
+      </p>
+      <p class="is-size-6 publication-venue">
+        <a href="https://rptu.de/en">Rheinland-Pfälzische Technische Universität Kaiserslautern-Landau, Kaiserslautern, Germany</a><br>
+        <a href="https://www.dfki.de/en/web">German Research Center for Artificial Intelligence (DFKI)</a>
+      </p>
+
+      <div class="publication-links">
+        <span class="link-block">
+          <a href="https://arxiv.org/pdf/2509.08422" class="external-link button is-dark is-rounded">
+            <span class="icon"><i class="ai ai-arxiv"></i></span>
+            <span>arXiv</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="https://github.com/payal-varshney/ld-vice" class="external-link button is-dark is-rounded">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Code</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-nav">
+  <div class="container is-max-desktop">
+    <div class="tabs is-centered is-boxed is-small nav-tabs">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#method">Method</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#appendix">Additional Results</a></li>
+        <li><a href="#BibTeX">BibTeX</a></li>
+        <li><a href="#Funding">Funding</a></li>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-2" id="overview">
+  <div class="container is-max-desktop">
+    <figure class="paper-figure lead-figure">
+      <div class="overview-videos">
+        <div class="overview-video-row overview-video-header overview-video-header-top">
+          <div class="ov-cell ov-group-original">Original Video</div>
+          <div class="ov-cell ov-group-ce">Counterfactual Videos</div>
+        </div>
+
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell class-surprise">Surprise</div>
+        <div class="ov-cell class-angry">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-fear">Fear</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-sad">Sad</div>
+      </div>
+
+        <div class="overview-video-row">
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/factual_Surprise.gif" alt="sample1 factual surprise"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Angry.gif" alt="sample1 counterfactual angry"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Disgust.gif" alt="sample1 counterfactual disgust"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Fear.gif" alt="sample1 counterfactual fear"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Happy.gif" alt="sample1 counterfactual happy"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Neutral.gif" alt="sample1 counterfactual neutral"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample1/counerfactual_Sad.gif" alt="sample1 counterfactual sad"></div>
+        </div>
+
+        <div class="overview-video-row">
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/factual_Surprise.gif" alt="sample10 factual surprise"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Angry.gif" alt="sample10 counterfactual angry"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Disgust.gif" alt="sample10 counterfactual disgust"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Fear.gif" alt="sample10 counterfactual fear"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Happy.gif" alt="sample10 counterfactual happy"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Neutral.gif" alt="sample10 counterfactual neutral"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample10/counerfactual_Sad.gif" alt="sample10 counterfactual sad"></div>
+        </div>
+
+        <div class="overview-video-row">
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/factual_Surprise.gif" alt="sample11 factual surprise"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Angry.gif" alt="sample11 counterfactual angry"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Disgust.gif" alt="sample11 counterfactual disgust"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Fear.gif" alt="sample11 counterfactual fear"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Happy.gif" alt="sample11 counterfactual happy"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Neutral.gif" alt="sample11 counterfactual neutral"></div>
+          <div class="ov-cell"><img src="./static/videos/ferv39k/sample11/counerfactual_Sad.gif" alt="sample11 counterfactual sad"></div>
+        </div>
+      </div>
+      <img src="./static/figures/ferv39.jpg" alt="FER-v39k results from paper">
+      <figcaption>
+       LD-ViCE generates counterfactual video
+        explanations using a latent diffusion model explicitly
+        guided by the target model.
+        By operating in latent space,
+        LD-ViCE significantly reduces computational cost while
+        maintaining temporal coherence and visual fidelity. LD-ViCE
+        integrates model feedback throughout generation, ensuring
+        causal alignment with the model’s predictions.
+        Figure shows the qualitative counterfactual results generated
+        by LD-ViCE. The first row shows four frames from three
+        original videos predicted as Surprise. The second, third, fourth,
+        and fifth rows display counterfactuals generated for the target emotion
+        classes Angry, Fear, Happy, and Sad, respectively. The generated counterfactuals
+        exhibit distinct and class-consistent facial dynamics
+        corresponding to the desired emotional categories.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section section-surface abstract-section" id="abstract">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <p class="abstract-caption">
+                Video-based AI systems are increasingly adopted in safetycritical
+          domains such as autonomous driving and healthcare.
+          However, interpreting their decisions remains challenging
+          due to the inherent spatiotemporal complexity of
+          video data and the opacity of deep learning models. Existing
+          explanation techniques often suffer from limited temporal
+          coherence and a lack of actionable causal insights.
+          Current counterfactual explanation methods typically do
+          not incorporate guidance from the target model, reducing
+          semantic fidelity and practical utility. We introduce Latent
+          Diffusion for Video Counterfactual Explanations (LD-ViCE),
+          a novel framework designed to explain the behavior
+          of video-based AI models. Compared to previous approaches,
+          LD-ViCE reduces the computational costs of
+          generating explanations by operating in latent space using
+          a state-of-the-art diffusion model, while producing realistic
+          and interpretable counterfactuals through an additional
+          refinement step. Experiments on three diverse
+          video datasets—EchoNet-Dynamic (cardiac ultrasound),
+          FERV39k (facial expression), and Something-Something V2
+          (action recognition) with multiple target models covering
+          both classification and regression tasks, demonstrate that
+          LD-ViCE generalizes well and achieves state-of-the-art performance.
+          On the EchoNet-Dynamic dataset, LD-ViCE
+          achieves significantly higher regression accuracy than prior
+          methods and exhibits high temporal consistency, while the
+          refinement stage further improves perceptual quality. Qualitative
+          analyses confirm that LD-ViCE produces semantically
+          meaningful and temporally coherent explanations,
+          providing actionable insights into model behavior. LDViCE
+          advances the trustworthiness and interpretability of
+          video-based AI systems through visually coherent counterfactual
+          explanations.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="method">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <figure class="paper-figure">
+      <img src="./static/figures/ld-vice.jpg" alt="LD-ViCE method diagram">
+      <figcaption>
+        Overview of the LD-ViCE counterfactual generation process.
+        The factual video x<sub>f</sub> is encoded and perturbed to obtain
+        the noisy latent z<sub>T</sub> (here, T = 3), while the conditional
+        text prompt c is embedded via the text encoder τ<sub>δ(c)</sub>.
+        At each guided denoising step t, the latent z<sub>t</sub> and
+        embedding τ<sub>δ(c)</sub> are provided to the diffusion model.
+        The denoising model (e.g., Expert Transformer (Ex-Tr)) predicts
+        the noise ε̂, which is used in the sampling process to compute
+        the clean latent v<sub>t</sub> and the less noisy latent z̃<sub>t-1</sub>.
+        The clean latent v<sub>t</sub> is decoded to produce x̃<sub>t</sub>,
+        which is used to estimate classifier gradients, scaled by
+        λ<sub>c</sub>, to compute the updated latent z<sub>t-1</sub>.
+        After the final step, z<sub>0</sub> is decoded into the counterfactual
+        video x<sub>cf</sub>. A refinement stage then denoises the same
+        latent z<sub>T</sub> without guidance to obtain a clean reference
+        video, from which a mask is computed to suppress diffusion
+        artifacts and produce the final masked counterfactual video
+        x<sub>mcf</sub>.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+    <div class="content has-text-justified mt-4">
+      <p>LD-ViCE is evaluated on three diverse benchmarks spanning facial expression recognition, echocardiography-based regression, and fine-grained action recognition, demonstrating generalization across both classification and regression settings.</p>
+    </div>
+    <p class="results-instruction">Click a dataset card to view its qualitative results.</p>
+    <div class="columns is-multiline is-variable is-4 mt-4">
+      <div class="column is-4">
+        <a class="dataset-mini-link" href="#results-ferv39k">
+          <div class="dataset-mini">
+            <h3>FERV39k</h3>
+            <p>A large-scale facial expression benchmark with categorical emotion labels. LD-ViCE generates class-consistent emotional transitions while preserving temporal coherence and facial realism.</p>
+          </div>
+        </a>
+      </div>
+      <div class="column is-4">
+        <a class="dataset-mini-link" href="#results-echonet">
+          <div class="dataset-mini">
+            <h3>EchoNet-Dynamics</h3>
+            <p>A cardiac ultrasound dataset with ejection-fraction regression targets. LD-ViCE provides clinically meaningful counterfactuals by editing temporal cardiac dynamics with high visual fidelity.</p>
+          </div>
+        </a>
+      </div>
+      <div class="column is-4">
+        <a class="dataset-mini-link" href="#results-ssv2">
+          <div class="dataset-mini">
+            <h3>Something-Something V2 (SSv2)</h3>
+            <p>A fine-grained human-object interaction benchmark where labels depend on motion cues. LD-ViCE reveals decision-critical spatiotemporal evidence through plausible action-level counterfactuals.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="dataset-block dataset-block-ferv39k" id="results-ferv39k">
+      <a class="dataset-close" href="#results">Close results</a>
+      <h3 class="title is-4">FERV39k</h3>
+      <div class="ferv-ra-table">
+        <div class="ferv-ra-row ferv-ra-header">
+          <div class="ferv-ra-cell">Original Video</div>
+          <div class="ferv-ra-cell">Counterfactual Video</div>
+          <div class="ferv-ra-cell">Difference Map</div>
+          <div class="ferv-ra-cell">Masked Counterfactual Video</div>
+          <div class="ferv-ra-cell">Difference Map</div>
+        </div>
+
+        <div class="ferv-ra-row sample1-ra">
+          <div class="ferv-ra-label label-neutral">Neutral</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample2_ra/f_video.gif" alt="sample2_ra factual video"></div>
+          <div class="ferv-ra-label label-happy">Happy</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample2_ra/cf_video.gif" alt="sample2_ra cf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample2_ra/f_cf_diff_video.gif" alt="sample2_ra f cf diff video"></div>
+          <div class="ferv-ra-label label-happy">Happy</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample2_ra/mcf_video.gif" alt="sample2_ra mcf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample2_ra/f_mcf_diff_video.gif" alt="sample2_ra f mcf diff video"></div>
+        </div>
+
+        <div class="ferv-ra-row sample2-ra">
+          <div class="ferv-ra-label label-angry">Angry</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample3_ra/f_video.gif" alt="sample3_ra factual video"></div>
+          <div class="ferv-ra-label label-sad">Sad</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample3_ra/cf_video.gif" alt="sample3_ra cf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample3_ra/f_cf_diff_video.gif" alt="sample3_ra f cf diff video"></div>
+          <div class="ferv-ra-label label-sad">Sad</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample3_ra/mcf_video.gif" alt="sample3_ra mcf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample3_ra/f_mcf_diff_video.gif" alt="sample3_ra f mcf diff video"></div>
+        </div>
+
+        <div class="ferv-ra-row sample3-ra">
+          <div class="ferv-ra-label label-fear">Fear</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample4_ra/f_video.gif" alt="sample4_ra factual video"></div>
+          <div class="ferv-ra-label label-angry">Angry</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample4_ra/cf_video.gif" alt="sample4_ra cf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample4_ra/f_cf_diff_video.gif" alt="sample4_ra f cf diff video"></div>
+          <div class="ferv-ra-label label-angry">Angry</div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample4_ra/mcf_video.gif" alt="sample4_ra mcf video"></div>
+          <div class="ferv-ra-cell"><img src="./static/videos/ferv39k/sample4_ra/f_mcf_diff_video.gif" alt="sample3_ra f mcf diff video"></div>
+        </div>
+      </div>
+      <figure class="paper-figure compact">
+        <img src="./static/figures/ferv39k-RA.jpg" alt="LD-ViCE vs LD-ViCE-RA on FERV39K">
+        <figcaption>
+          Qualitative comparison of counterfactuals generated by LD-ViCE
+          and its RA variant on the FERV39K dataset. The figure shows
+          three representative samples, each consisting of four frames
+          from the original video (top row) and the corresponding
+          counterfactuals generated by LD-ViCE and LD-ViCE-RA, with
+          their corresponding difference maps. Original and target emotion
+          classes are indicated on the left side of each example. The
+          LD-ViCE-RA variant focuses more precisely on expression-relevant
+          facial regions while maintaining realistic appearance and temporal
+          coherence.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="dataset-block dataset-block-echonet" id="results-echonet">
+      <a class="dataset-close" href="#results">Close results</a>
+      <h3 class="title is-4">EchoNet</h3>
+      <div class="echonet-table-wrap">
+        <table class="echonet-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Sample 1</th>
+              <th>Sample 2</th>
+              <th>Sample 3</th>
+              <th>Sample 4</th>
+              <th>Sample 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Original Video</td>
+              <td><img src="./static/videos/echonet/sample1/f_video.gif" alt="Echo sample1 factual"></td>
+              <td><img src="./static/videos/echonet/sample2/f_video.gif" alt="Echo sample2 factual"></td>
+              <td><img src="./static/videos/echonet/sample3/f_video.gif" alt="Echo sample3 factual"></td>
+              <td><img src="./static/videos/echonet/sample4/f_video.gif" alt="Echo sample4 factual"></td>
+              <td><img src="./static/videos/echonet/sample5/f_video.gif" alt="Echo sample5 factual"></td>
+            </tr>
+            <tr>
+              <td>Counterfactual Video</td>
+              <td><img src="./static/videos/echonet/sample1/cf_video.gif" alt="Echo sample1 counterfactual"></td>
+              <td><img src="./static/videos/echonet/sample2/cf_video.gif" alt="Echo sample2 counterfactual"></td>
+              <td><img src="./static/videos/echonet/sample3/cf_video.gif" alt="Echo sample3 counterfactual"></td>
+              <td><img src="./static/videos/echonet/sample4/cf_video.gif" alt="Echo sample4 counterfactual"></td>
+              <td><img src="./static/videos/echonet/sample5/cf_video.gif" alt="Echo sample5 counterfactual"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="paper-figure compact">
+        <img src="./static/figures/echonet.jpg" alt="EchoNet qualitative figure">
+        <figcaption>
+          Qualitative comparison of counterfactual explanations on the
+          EchoNet-Dynamics dataset. The first row shows eight frames
+          from the original video, while the subsequent rows present
+          counterfactuals generated using LD-ViCE, LD-ViCE-RA, and
+          1SCM [24], respectively. Predicted LVEF values are shown on
+          the left. The figure illustrates that LD-ViCE produces visually
+          coherent counterfactuals that more closely match the target
+          regression values compared to prior methods.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="dataset-block dataset-block-ssv2" id="results-ssv2">
+      <a class="dataset-close" href="#results">Close results</a>
+      <h3 class="title is-4">Something-Something V2</h3>
+      <div class="ssv2-table-wrap">
+        <table class="ssv2-table">
+          <thead>
+            <tr>
+              <th>Original Video</th>
+              <th>Counterfactual Video</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="ssv2-class-group-row">
+              <td><strong>Source class:</strong> Pouring something into something</td>
+              <td><strong>Target class:</strong> Pouring something into something until it overflows.</td>
+            </tr>
+            <tr>
+              <td>
+                <img src="./static/videos/ssv2/sample1/factual.gif" alt="SSV2 sample1 factual">
+              </td>
+              <td>
+                <img src="./static/videos/ssv2/sample1/counterfactual.gif" alt="SSV2 sample1 counterfactual">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="./static/videos/ssv2/sample2/factual.gif" alt="SSV2 sample2 factual">
+              </td>
+              <td>
+                <img src="./static/videos/ssv2/sample2/counterfactual.gif" alt="SSV2 sample2 counterfactual">
+              </td>
+            </tr>
+            <tr class="ssv2-class-group-row">
+              <td><strong>Source class:</strong> Bending something so that it deforms</td>
+              <td><strong>Target class:</strong> Bending something until it breaks.</td>
+            </tr>
+            <tr>
+              <td>
+                <img src="./static/videos/ssv2/sample3/factual.gif" alt="SSV2 sample3 factual">
+              </td>
+              <td>
+                <img src="./static/videos/ssv2/sample3/counterfactual.gif" alt="SSV2 sample3 counterfactual">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src="./static/videos/ssv2/sample4/factual.gif" alt="SSV2 sample4 factual">
+              </td>
+              <td>
+                <img src="./static/videos/ssv2/sample4/counterfactual.gif" alt="SSV2 sample4 counterfactual">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-surface" id="appendix">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Additional Qualitative Results</h2>
+    <div class="content has-text-justified mb-4">
+      <p>
+        Additional qualitative counterfactual examples on FERV39k,
+        showing factual videos and class-targeted generations to further
+        illustrate semantically meaningful expression changes, temporal
+        coherence, and class-consistent facial dynamics produced by
+        LD-ViCE.
+      </p>
+    </div>
+    <div class="overview-videos appendix-videos">
+      <div class="overview-video-row overview-video-header overview-video-header-top">
+        <div class="ov-cell ov-group-original">Original Video</div>
+        <div class="ov-cell ov-group-ce">Counterfactual Videos</div>
+      </div>
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-fear">Fear</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-sad">Sad</div>
+        <div class="ov-cell class-surprise">Surprise</div>
+      </div>
+      <div class="overview-video-row">
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/factual_Angry.gif" alt="sample5 factual angry"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Disgust.gif" alt="sample5 counterfactual disgust"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Fear.gif" alt="sample5 counterfactual fear"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Happy.gif" alt="sample5 counterfactual happy"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Neutral.gif" alt="sample5 counterfactual neutral"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Sad.gif" alt="sample5 counterfactual sad"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample5/counerfactual_Surprise.gif" alt="sample5 counterfactual surprise"></div>
+      </div>
+
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell">Surprise</div>
+        <div class="ov-cell class-angry">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-fear">Fear</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-sad">Sad</div>
+      </div>
+      <div class="overview-video-row">
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/factual_Surprise.gif" alt="sample6 factual surprise"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Angry.gif" alt="sample6 counterfactual angry"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Disgust.gif" alt="sample6 counterfactual disgust"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Fear.gif" alt="sample6 counterfactual fear"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Happy.gif" alt="sample6 counterfactual happy"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Neutral.gif" alt="sample6 counterfactual neutral"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample6/counerfactual_Sad.gif" alt="sample6 counterfactual sad"></div>
+      </div>
+
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell">Sad</div>
+        <div class="ov-cell class-angry">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-fear">Fear</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-surprise">Surprise</div>
+      </div>
+      <div class="overview-video-row">
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/factual_Sad.gif" alt="sample7 factual sad"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Angry.gif" alt="sample7 counterfactual angry"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Disgust.gif" alt="sample7 counterfactual disgust"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Fear.gif" alt="sample7 counterfactual fear"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Happy.gif" alt="sample7 counterfactual happy"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Neutral.gif" alt="sample7 counterfactual neutral"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample7/counerfactual_Surprise.gif" alt="sample7 counterfactual surprise"></div>
+      </div>
+
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell">Fear</div>
+        <div class="ov-cell class-angry">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-sad">Sad</div>
+        <div class="ov-cell class-surprise">Surprise</div>
+      </div>
+      <div class="overview-video-row">
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/factual_Fear.gif" alt="sample8 factual fear"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Angry.gif" alt="sample8 counterfactual angry"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Disgust.gif" alt="sample8 counterfactual disgust"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Happy.gif" alt="sample8 counterfactual happy"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Neutral.gif" alt="sample8 counterfactual neutral"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Sad.gif" alt="sample8 counterfactual sad"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample8/counerfactual_Surprise.gif" alt="sample8 counterfactual surprise"></div>
+      </div>
+
+      <div class="overview-video-row overview-video-header">
+        <div class="ov-cell">Sad</div>
+        <div class="ov-cell class-angry">Angry</div>
+        <div class="ov-cell class-disgust">Disgust</div>
+        <div class="ov-cell class-fear">Fear</div>
+        <div class="ov-cell class-happy">Happy</div>
+        <div class="ov-cell class-neutral">Neutral</div>
+        <div class="ov-cell class-surprise">Surprise</div>
+      </div>
+      <div class="overview-video-row">
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/factual_Sad.gif" alt="sample9 factual sad"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Angry.gif" alt="sample9 counterfactual angry"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Disgust.gif" alt="sample9 counterfactual disgust"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Fear.gif" alt="sample9 counterfactual fear"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Happy.gif" alt="sample9 counterfactual happy"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Neutral.gif" alt="sample9 counterfactual neutral"></div>
+        <div class="ov-cell"><img src="./static/videos/ferv39k/sample9/counerfactual_Surprise.gif" alt="sample9 counterfactual surprise"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@article{varshney2025ld,
+  title={LD-ViCE: Latent Diffusion Model for Video Counterfactual Explanations},
+  author={Varshney, Payal and Lucieri, Adriano and Balada, Christoph and Ahmed, Sheraz and Dengel, Andreas},
+  journal={arXiv preprint arXiv:2509.08422},
+  year={2025}
+}</code></pre>
+  </div>
+</section>
+
+<section class="section" id="Funding">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">Funding</h2>
+    <p>
+      The project was funded by the Federal Ministry for Education and Research (BMBF) with grant number 03ZU1202JA.
+    </p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="https://github.com/payal-varshney/ld-vice"><i class="fab fa-github"></i></a>
+      <p>
+        This page is adapted from this <a href="https://github.com/nerfies/nerfies.github.io">implementation</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const navLinks = Array.from(document.querySelectorAll('.section-nav a[href^="#"]'));
+    const sectionIds = navLinks.map(link => link.getAttribute('href'));
+    const sections = sectionIds
+      .map(id => document.querySelector(id))
+      .filter(Boolean);
+
+    if (!navLinks.length || !sections.length) return;
+
+    const setActive = (id) => {
+      navLinks.forEach(link => {
+        const active = link.getAttribute('href') === id;
+        link.classList.toggle('is-active', active);
+      });
+    };
+
+    const updateActiveOnScroll = () => {
+      const nav = document.querySelector('.section-nav');
+      const navHeight = nav ? nav.offsetHeight : 0;
+      const probeY = window.scrollY + navHeight + 24;
+
+      let currentId = '#overview';
+      for (const section of sections) {
+        if (section.offsetTop <= probeY) {
+          currentId = '#' + section.id;
+        } else {
+          break;
+        }
+      }
+      setActive(currentId);
+    };
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => setActive(link.getAttribute('href')));
+    });
+
+    window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
+    window.addEventListener('resize', updateActiveOnScroll);
+    window.addEventListener('hashchange', updateActiveOnScroll);
+    updateActiveOnScroll();
+  })();
+</script>
+
+</body>
+</html>
