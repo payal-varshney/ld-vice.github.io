@@ -347,8 +347,8 @@
       <p class="video-controls-help">Click emotion buttons to select or unselect. You can choose one, multiple, or all counterfactual emotions.</p>
       <div class="video-controls video-class-controls" data-class-scope="results-ferv-overview-groups" role="group" aria-label="FERV39k class filter">
         <span class="video-controls-label">Target Emotion:</span>
-        <button class="video-filter video-class-filter is-active" type="button" data-class="angry" aria-pressed="true">Angry</button>
-        <button class="video-filter video-class-filter" type="button" data-class="disgust" aria-pressed="false">Disgust</button>
+        <button class="video-filter video-class-filter" type="button" data-class="angry" aria-pressed="false">Angry</button>
+        <button class="video-filter video-class-filter is-active" type="button" data-class="disgust" aria-pressed="true">Disgust</button>
         <button class="video-filter video-class-filter" type="button" data-class="fear" aria-pressed="false">Fear</button>
         <button class="video-filter video-class-filter" type="button" data-class="happy" aria-pressed="false">Happy</button>
         <button class="video-filter video-class-filter" type="button" data-class="neutral" aria-pressed="false">Neutral</button>
@@ -2430,6 +2430,22 @@
 
     const initClassFilters = () => {
       const classControlGroups = Array.from(document.querySelectorAll('.video-class-controls[data-class-scope]'));
+      const fervResultsSourceClassMap = {
+        sample_1: 'surprise',
+        sample_7: 'angry',
+        sample_8: 'angry',
+        sample_9: 'disgust',
+        sample_10: 'disgust',
+        sample_11: 'fear',
+        sample_12: 'fear',
+        sample_13: 'happy',
+        sample_14: 'happy',
+        sample_15: 'neutral',
+        sample_16: 'neutral',
+        sample_17: 'sad',
+        sample_18: 'sad',
+        sample_19: 'surprise'
+      };
 
       classControlGroups.forEach((controls) => {
         const scopeId = controls.getAttribute('data-class-scope');
@@ -2439,7 +2455,53 @@
         const buttons = Array.from(controls.querySelectorAll('.video-class-filter[data-class]'));
         const allButton = buttons.find((button) => button.getAttribute('data-class') === 'all');
         const classButtons = buttons.filter((button) => button.getAttribute('data-class') !== 'all');
+        const isFervResultsScope = scopeId === 'results-ferv-overview-groups';
+        const sampleControls = isFervResultsScope
+          ? document.querySelector(`.video-controls[data-scope="${scopeId}"]`)
+          : null;
         if (!buttons.length) return;
+
+        const getActiveSampleGroup = () => {
+          if (!sampleControls) return '';
+          const activeSampleButton = sampleControls.querySelector('.video-filter[data-group].is-active');
+          return activeSampleButton ? (activeSampleButton.getAttribute('data-group') || '') : '';
+        };
+
+        const getDisabledClassName = () => {
+          if (!isFervResultsScope) return '';
+          const activeSample = getActiveSampleGroup();
+          if (!activeSample || activeSample === 'all') return '';
+          return fervResultsSourceClassMap[activeSample] || '';
+        };
+
+        const getPreferredClassName = (disabledClassName) => {
+          const preferred = 'disgust';
+          if (preferred && preferred !== disabledClassName) {
+            const hasPreferred = classButtons.some((button) => {
+              return (button.getAttribute('data-class') || '') === preferred;
+            });
+            if (hasPreferred) return preferred;
+          }
+          const fallback = classButtons.find((button) => {
+            return (button.getAttribute('data-class') || '') !== disabledClassName;
+          });
+          return fallback ? (fallback.getAttribute('data-class') || '') : '';
+        };
+
+        const syncDisabledClassButtons = () => {
+          const disabledClassName = getDisabledClassName();
+          classButtons.forEach((button) => {
+            const className = button.getAttribute('data-class') || '';
+            const shouldDisable = Boolean(disabledClassName) && className === disabledClassName;
+            button.disabled = shouldDisable;
+            button.setAttribute('aria-disabled', shouldDisable ? 'true' : 'false');
+            if (shouldDisable) {
+              button.classList.remove('is-active');
+              button.setAttribute('aria-pressed', 'false');
+            }
+          });
+          return disabledClassName;
+        };
 
         const getSelected = () => {
           const selected = classButtons
@@ -2450,20 +2512,40 @@
         };
 
         const applyClassSelection = (selectedSet, useAll) => {
-          const selectedList = useAll ? ['all'] : Array.from(selectedSet);
-          scope.dataset.classFilter = useAll ? 'all' : selectedList.join(',');
+          const disabledClassName = syncDisabledClassButtons();
+          const normalizedSelection = new Set(selectedSet);
+          if (disabledClassName) {
+            normalizedSelection.delete(disabledClassName);
+          }
+
+          let effectiveUseAll = useAll;
+          if (!effectiveUseAll && normalizedSelection.size === 0) {
+            if (isFervResultsScope) {
+              const preferredClassName = getPreferredClassName(disabledClassName);
+              if (preferredClassName) {
+                normalizedSelection.add(preferredClassName);
+              } else if (allButton) {
+                effectiveUseAll = true;
+              }
+            } else if (allButton) {
+              effectiveUseAll = true;
+            }
+          }
+
+          const selectedList = effectiveUseAll ? ['all'] : Array.from(normalizedSelection);
+          scope.dataset.classFilter = effectiveUseAll ? 'all' : selectedList.join(',');
           applyClassFilter(scope, selectedList);
 
           classButtons.forEach((button) => {
             const className = button.getAttribute('data-class') || '';
-            const active = !useAll && selectedSet.has(className);
+            const active = !effectiveUseAll && normalizedSelection.has(className);
             button.classList.toggle('is-active', active);
             button.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
 
           if (allButton) {
-            allButton.classList.toggle('is-active', useAll);
-            allButton.setAttribute('aria-pressed', useAll ? 'true' : 'false');
+            allButton.classList.toggle('is-active', effectiveUseAll);
+            allButton.setAttribute('aria-pressed', effectiveUseAll ? 'true' : 'false');
           }
         };
 
@@ -2504,6 +2586,20 @@
         );
         const initialUseAll = Boolean(allButton) && initialActiveClasses.size === 0;
         applyClassSelection(initialActiveClasses, initialUseAll);
+
+        if (isFervResultsScope && sampleControls) {
+          const sampleButtons = Array.from(sampleControls.querySelectorAll('.video-filter[data-group]'));
+          sampleButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              const allModeActive = Boolean(allButton) && allButton.classList.contains('is-active');
+              if (allModeActive) {
+                syncDisabledClassButtons();
+                return;
+              }
+              applyClassSelection(getSelected(), false);
+            });
+          });
+        }
       });
     };
 
